@@ -56,10 +56,10 @@ function wipe_dependencies(){
         # Delete the roomservice manifest
         rm -rf $WORKSPACE/.repo/local_manifests
         echo "Removed all local manifests!"
-
 }
 
 function build_target(){
+        repo forall -C "git reset --hard"
         repo sync --force-sync --no-tags --no-clone-bundle
         source build/envsetup.sh
 	export USE_CCACHE=1
