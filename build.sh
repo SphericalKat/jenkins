@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>
 
-#Useful vars
+# Useful vars
 DOW=$(date +%u)
 CUR_TIME=$(date +%H)
 
@@ -24,7 +24,7 @@ function curl_targets(){
         crumb=$(wget -q --auth-no-challenge --user $USERNAME --password $PASSWORD --output-document - 'https://jenkins.firehound.me/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' | sed 's/\:/\=/g')
 
         # Curl a list of targets
-        for target in $(curl -s https://raw.githubusercontent.com/ATechnoHazard/android/master/test-targets | sed -e 's/#.*$//' | grep o8.1 | awk '{printf "fh_%s-%s|%s\n", $1, $2, $3 }')
+        for target in $(curl -s https://raw.githubusercontent.com/FireHound/jenkins/master/build-targets | sed -e 's/#.*$//' | grep o8.1 | awk '{printf "fh_%s-%s|%s\n", $1, $2, $3 }')
         do
 
                 # If build day matches the current day, add the device to the build queue
