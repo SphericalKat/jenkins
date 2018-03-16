@@ -21,18 +21,21 @@ CUR_TIME=$(date +%H)
 
 function curl_targets(){
         echo -e "Getting the list of build targets...."
+        crumb=$(wget -q --auth-no-challenge --user $USERNAME --password $PASSWORD --output-document - 'https://jenkins.firehound.me/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' | sed 's/\:/\=/g')
+
         # Curl a list of targets
         for target in $(curl -s https://raw.githubusercontent.com/ATechnoHazard/android/master/test-targets | sed -e 's/#.*$//' | grep o8.1 | awk '{printf "fh_%s-%s|%s\n", $1, $2, $3 }')
         do
+
                 # If build day matches the current day, add the device to the build queue
                 if [[ $(echo $target | awk -F"|" '{print $2}') == $DOW ]];
                 then
                         DEV_TARG=$(echo $target | awk -F"_" '{print $2}' | awk -F"-" '{print $1}')
                         BUILD_TYPE=$(echo $target | awk -F"-" '{print $2}' | awk -F"|" '{print $1}')
                         LUNCH_TARGS=$(echo $target | awk -F "|" '{print $1}')
-                        echo "fh_$DEV_TARG-$BUILD_TYPE" > version.txt
+                        echo "fh_$DEV_TARG-$BUILD_TYPE" > ../builder/version.txt
                         echo -e "${DEV_TARG} is scheduled to be built today. Building...."
-                        curl -X POST http://do.anshumanmishra.me:8080/job/Master/buildWithParameters -d "token=myAuthToken" -d "LUNCH_TARG=${LUNCH_TARGS}"
+                        curl -X POST https://$USERNAME:$API_TOKEN@jenkins.firehound.me/job/builder/buildWithParameters -d "token=$TOKEN" -d "LUNCH_TARG=${LUNCH_TARGS}" -d "$crumb"
                 fi
         done
 }
@@ -59,8 +62,15 @@ function wipe_dependencies(){
 function build_target(){
         repo sync --force-sync --no-tags --no-clone-bundle
         source build/envsetup.sh
+	export USE_CCACHE=1
         make clobber
         export FH_RELEASE=true
         lunch $LUNCH_TARG
         mka bacon
+}
+
+function upload_build(){
+        cd $OUT
+        DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" 'print $2')
+        scp Fire*.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
 }
