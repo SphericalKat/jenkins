@@ -33,7 +33,6 @@ function curl_targets(){
                         DEV_TARG=$(echo $target | awk -F"_" '{print $2}' | awk -F"-" '{print $1}')
                         BUILD_TYPE=$(echo $target | awk -F"-" '{print $2}' | awk -F"|" '{print $1}')
                         LUNCH_TARGS=$(echo $target | awk -F "|" '{print $1}')
-                        echo "fh_$DEV_TARG-$BUILD_TYPE" > ../builder/version.txt
                         echo -e "${DEV_TARG} is scheduled to be built today. Building...."
                         curl -X POST https://$USERNAME:$API_TOKEN@jenkins.firehound.me/job/builder/buildWithParameters -d "token=$TOKEN" -d "LUNCH_TARG=${LUNCH_TARGS}" -d "$crumb"
                 fi
@@ -72,5 +71,5 @@ function build_target(){
 function upload_build(){
         cd $OUT
         DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" 'print $2')
-        scp Fire*.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
+        scp $FH_VERSION.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
 }
