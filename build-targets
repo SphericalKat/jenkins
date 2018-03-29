@@ -1,5 +1,6 @@
 # FireHound build target list
-# <device> <build_type> <branch name> <Day: 1 Monday - 7 Sunday>
+# <device> <build_type>  <Day: 1 Monday - 7 Sunday> <branch name>
 # Build types may be - user, userdebug or eng
 
-cedric userdebug o8.1 4
+cedric userdebug 4 o8.1
+potter userdebug 5 o8.1
