@@ -2,3 +2,4 @@
 # <device> <build_type> <branch name> <Day: 1 Monday - 7 Sunday>
 # Build types may be - user, userdebug or eng
 
+cedric userdebug o8.1 4
