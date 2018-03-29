@@ -64,6 +64,7 @@ function build_target(){
 	export USE_CCACHE=1
         make clobber
         export FH_RELEASE=true
+	apply_maintainer_patches
         lunch $LUNCH_TARG
         mka bacon
 }
