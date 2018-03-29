@@ -30,7 +30,7 @@ function curl_targets(){
                 # If build day matches the current day, add the device to the build queue
                 if [[ $(echo $target | awk -F"|" '{print $2}') == $DOW ]];
                 then
-                        DEV_TARG=$(echo $target | awk -F"_" '{print $2}' | awk -F"-" '{print $1}')
+                        export DEV_TARG=$(echo $target | awk -F"_" '{print $2}' | awk -F"-" '{print $1}')
                         BUILD_TYPE=$(echo $target | awk -F"-" '{print $2}' | awk -F"|" '{print $1}')
                         LUNCH_TARGS=$(echo $target | awk -F "|" '{print $1}')
                         echo -e "${DEV_TARG} is scheduled to be built today. Building...."
@@ -72,4 +72,20 @@ function upload_build(){
         cd $OUT
         DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" 'print $2')
         scp $FH_VERSION.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
+}
+
+function apply_maintainer_patches(){
+# This function is to apply patches when unavoidable. It checks for the existence of a dir called "patches",
+# And will apply every patch in the folder. Patches are to be shell scripts.
+
+cd device/*/$DEV_TARG
+if [ -d "patches" ];then
+	for patch in ./patches/*;
+	do
+		chmod a+x ./patches/*
+		. $patch
+		echo patches found $patch
+	done
+fi
+cd - >> /dev/null
 }
