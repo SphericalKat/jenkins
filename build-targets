@@ -2,5 +2,6 @@
 # <device> <build_type>  <Day: 1 Monday - 7 Sunday> <branch name>
 # Build types may be - user, userdebug or eng
 
+potter user 1 o8.1
+land userdebug 2 o8.1
 cedric userdebug 4 o8.1
-potter userdebug 5 o8.1
