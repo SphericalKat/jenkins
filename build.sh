@@ -71,8 +71,8 @@ function build_target(){
 
 function upload_build(){
         cd $OUT
-        DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" 'print $2')
-        scp $FH_VERSION.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
+        DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" '{print $2}')
+        scp Fire*.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
 }
 
 function apply_maintainer_patches(){
