@@ -58,7 +58,6 @@ function wipe_dependencies(){
 }
 
 function build_target(){
-        repo forall -C "git reset --hard"
         repo sync --force-sync --no-tags --no-clone-bundle
         source build/envsetup.sh
 	export USE_CCACHE=1
@@ -79,7 +78,7 @@ function apply_maintainer_patches(){
 # This function is to apply patches when unavoidable. It checks for the existence of a dir called "patches",
 # And will apply every patch in the folder. Patches are to be shell scripts.
 
-cd device/*/$DEV_TARG
+cd device/*/$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" '{print $2}')
 if [ -d "patches" ];then
 	for patch in ./patches/*;
 	do
