@@ -21,10 +21,10 @@ CUR_TIME=$(date +%H)
 
 function curl_targets(){
         echo -e "Getting the list of build targets...."
-        crumb=$(wget -q --auth-no-challenge --user $USERNAME --password $PASSWORD --output-document - 'https://jenkins.firehound.me/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' | sed 's/\:/\=/g')
+        crumb=$(wget -q --auth-no-challenge --user $USERNAME --password $PASSWORD --output-document - 'https://jenkins.firehound.org/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' | sed 's/\:/\=/g')
 
         # Curl a list of targets
-        for target in $(curl -s https://raw.githubusercontent.com/FireHound/jenkins/master/build-targets | sed -e 's/#.*$//' | grep o8.1 | awk '{printf "fh_%s-%s|%s\n", $1, $2, $3 }')
+        for target in $(curl -s https://raw.githubusercontent.com/FireHound/jenkins/o8.1/build-targets | sed -e 's/#.*$//' | grep o8.1 | awk '{printf "fh_%s-%s|%s\n", $1, $2, $3 }')
         do
 
                 # If build day matches the current day, add the device to the build queue
@@ -34,7 +34,9 @@ function curl_targets(){
                         BUILD_TYPE=$(echo $target | awk -F"-" '{print $2}' | awk -F"|" '{print $1}')
                         LUNCH_TARGS=$(echo $target | awk -F "|" '{print $1}')
                         echo -e "${DEV_TARG} is scheduled to be built today. Building...."
-                        curl -X POST https://$USERNAME:$API_TOKEN@jenkins.firehound.me/job/builder/buildWithParameters -d "token=$TOKEN" -d "LUNCH_TARG=${LUNCH_TARGS}" -d "$crumb"
+                        rm -rf /var/lib/jenkins/workspace/builder/version.txt
+                        echo ${LUNCH_TARGS} > /var/lib/jenkins/workspace/builder/version.txt
+                        curl -X POST https://$USERNAME:$API_TOKEN@jenkins.firehound.org/job/builder/buildWithParameters -d "token=$TOKEN" -d "LUNCH_TARG=${LUNCH_TARGS}" -d "$crumb"
                 fi
         done
 }
@@ -58,13 +60,12 @@ function wipe_dependencies(){
 }
 
 function build_target(){
-        repo sync --force-sync --no-tags --no-clone-bundle
+        repo sync -c --force-sync --no-tags --no-clone-bundle
         source build/envsetup.sh
 	export USE_CCACHE=1
         make clobber
         export FH_RELEASE=true
         lunch $LUNCH_TARG
-        apply_maintainer_patches
         mka bacon
 }
 
@@ -72,20 +73,4 @@ function upload_build(){
         cd $OUT
         DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" '{print $2}')
         scp Fire*.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
-}
-
-function apply_maintainer_patches(){
-# This function is to apply patches when unavoidable. It checks for the existence of a dir called "patches",
-# And will apply every patch in the folder. Patches are to be shell scripts.
-
-cd device/*/$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" '{print $2}')
-if [ -d "patches" ];then
-	for patch in ./patches/*;
-	do
-		chmod a+x ./patches/*
-		. $patch
-		echo patches found $patch
-	done
-fi
-cd - >> /dev/null
 }
