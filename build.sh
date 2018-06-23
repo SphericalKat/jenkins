@@ -34,9 +34,7 @@ function curl_targets(){
                         BUILD_TYPE=$(echo $target | awk -F"-" '{print $2}' | awk -F"|" '{print $1}')
                         LUNCH_TARGS=$(echo $target | awk -F "|" '{print $1}')
                         echo -e "${DEV_TARG} is scheduled to be built today. Building...."
-                        rm -rf /var/lib/jenkins/workspace/builder/version.txt
-                        echo ${LUNCH_TARGS} > /var/lib/jenkins/workspace/builder/version.txt
-                        curl -X POST https://$USERNAME:$API_TOKEN@jenkins.firehound.org/job/builder/buildWithParameters -d "token=$TOKEN" -d "LUNCH_TARG=${LUNCH_TARGS}" -d "$crumb"
+                        curl -X POST https://$USERNAME:$API_TOKEN@jenkins.firehound.org/job/builder/buildWithParameters -d "token=$TOKEN" -d "LUNCH_TARG=${LUNCH_TARGS}" -d "BOT_API_KEY=${BOT_KEY}" -d "FILE_ID=${FILEID}"  -d "$crumb"
                 fi
         done
 }
@@ -62,7 +60,7 @@ function wipe_dependencies(){
 function build_target(){
         repo sync -c --force-sync --no-tags --no-clone-bundle
         source build/envsetup.sh
-	export USE_CCACHE=1
+        export USE_CCACHE=1
         make clobber
         export FH_RELEASE=true
         lunch $LUNCH_TARG
@@ -70,7 +68,7 @@ function build_target(){
 }
 
 function upload_build(){
-        cd $OUT
-        DEVICE=$(echo $LUNCH_TARG | awk -F"-" '{print $1}' | awk -F"_" '{print $2}')
-        scp Fire*.zip pusher@dl.firehound.me:/home/pusher/$DEVICE
+        gdrive upload ${FIREHOUND_TARGET_PACKAGE} -p $FILEID
+        echo "Syncing gdrive directory with the download website!"
+        curl -X GET https://api.firehound.org/nodejs/api/gdrive-files
 }
