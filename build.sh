@@ -68,7 +68,7 @@ function build_target(){
 }
 
 function upload_build(){
-        gdrive upload ${FIREHOUND_TARGET_PACKAGE} -p $FILEID
+        gdrive upload ${FIREHOUND_TARGET_PACKAGE} -p $FILE_ID
         echo "Syncing gdrive directory with the download website!"
         curl -X GET https://api.firehound.org/nodejs/api/gdrive-files
 }
