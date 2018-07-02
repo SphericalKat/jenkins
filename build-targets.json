@@ -1,0 +1,12 @@
+# FireHound build target list
+# <device> <build_type>  <Day: 1 Monday - 7 Sunday> <branch name>
+# Build types may be - user, userdebug or eng
+
+
+[
+	{
+		"device": "cheeseburger",
+		"build_type": "userdebug",
+		"dow": "2"
+	}
+]
