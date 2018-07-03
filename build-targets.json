@@ -23,5 +23,15 @@
 		"device": "angler",
 		"build_type": "userdebug",
 		"dow": "5"
+	},
+	{
+		"device": "marlin",
+		"build_type": "userdebug",
+		"dow": "5"
+	},
+	{
+		"device": "sailfish",
+		"build_type": "userdebug",
+		"dow": "5"
 	}
 ]
