@@ -18,5 +18,10 @@
 		"device": "X00TD",
 		"build_type": "userdebug",
 		"dow": "1"
+	},
+	{
+		"device": "angler",
+		"build_type": "userdebug",
+		"dow": "5"
 	}
 ]
