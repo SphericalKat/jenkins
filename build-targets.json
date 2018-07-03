@@ -3,5 +3,10 @@
 		"device": "cheeseburger",
 		"build_type": "userdebug",
 		"dow": "2"
-	}
+	},
+        {
+                "device": "potter",
+                "build_type": "userdebug",
+                "dow": "6"
+        }
 ]
