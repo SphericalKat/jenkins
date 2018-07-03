@@ -30,4 +30,13 @@ node("master") {
 		mka bacon
 		'''
 	}
+	stage('Upload') {
+		sh '''#!/bin/bash
+		set -e
+		cd '''+BUILD_TREE+'''
+		gdrive upload '''+BUILD_TREE+'''/out/target/product/*/FireHound-*.zip -p 1UugE3Eb43arYnfn0muFvIkkDkbvj3NAr
+		echo "Uploading $DEVICE build to gdrive"
+		curl -X GET https://api.firehound.org/nodejs/api/gdrive-files
+		'''
+	}
 }
