@@ -4,19 +4,19 @@
 		"build_type": "userdebug",
 		"dow": "2"
 	},
-        {
-                "device": "potter",
-                "build_type": "userdebug",
-                "dow": "6"
-        },
-
 	{
-                "device": "sanders",
-                "build_type": "userdebug",
-                "dow": "4"
-        },
-                "device": "X00TD",
-                "build_type": "userdebug",
-                "dow": "1"
-        }
+		"device": "potter",
+		"build_type": "userdebug",
+		"dow": "6"
+	},
+	{
+		"device": "sanders",
+		"build_type": "userdebug",
+		"dow": "4"
+	},
+	{
+		"device": "X00TD",
+		"build_type": "userdebug",
+		"dow": "1"
+	}
 ]
