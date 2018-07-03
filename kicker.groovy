@@ -12,7 +12,7 @@ node("master"){
     for(int i = 0; i < json.size(); i++) {
 		if (json[i].dow == dow){
 			echo "${json[i].device} is scheduled to be built today."
-			build job: 'fh-build', parameters: [
+			build job: 'builder', parameters: [
 			string(name: 'DEVICE', value: (json[i].device == null) ? "lolwut" : json[i].device),
 			string(name: 'BUILD_TYPE', value: (json[i].build_type == null) ? "userdebug" : json[i].build_type)
 			], propagate: false, wait: false

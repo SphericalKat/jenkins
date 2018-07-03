@@ -3,7 +3,7 @@ def BUILD_TREE = "/var/lib/jenkins/workspace/builder"
 
 node("master") {
 	currentBuild.displayName = basejobname
-	
+
 	stage('Sync') {
 		sh '''#!/bin/bash
 		cd '''+BUILD_TREE+'''
