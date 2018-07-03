@@ -14,5 +14,9 @@
                 "device": "sanders",
                 "build_type": "userdebug",
                 "dow": "4"
+        },
+                "device": "X00TD",
+                "build_type": "userdebug",
+                "dow": "1"
         }
 ]
