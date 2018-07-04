@@ -33,5 +33,10 @@
 		"device": "sailfish",
 		"build_type": "userdebug",
 		"dow": "5"
+	},
+	{
+		"device": "mido",
+		"build_type": "userdebug",
+		"dow": "2"
 	}
 ]
