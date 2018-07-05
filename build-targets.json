@@ -1,42 +1,42 @@
 [
 	{
-		"device": "cheeseburger",
-		"build_type": "userdebug",
-		"dow": "2"
-	},
+                "device": "X00TD",
+                "build_type": "userdebug",
+                "dow": "1"
+        },
 	{
-		"device": "potter",
-		"build_type": "userdebug",
-		"dow": "6"
-	},
+                "device": "mido",
+                "build_type": "userdebug",
+                "dow": "2"
+        },
 	{
-		"device": "sanders",
-		"build_type": "userdebug",
-		"dow": "4"
-	},
+                "device": "cheeseburger",
+                "build_type": "userdebug",
+                "dow": "2"
+        },
 	{
-		"device": "X00TD",
-		"build_type": "userdebug",
-		"dow": "1"
-	},
+                "device": "sanders",
+                "build_type": "userdebug",
+                "dow": "4"
+        },
 	{
-		"device": "angler",
-		"build_type": "userdebug",
-		"dow": "5"
-	},
+                "device": "angler",
+                "build_type": "userdebug",
+                "dow": "5"
+        },
+        {
+                "device": "marlin",
+                "build_type": "userdebug",
+                "dow": "5"
+        },
+        {
+                "device": "sailfish",
+                "build_type": "userdebug",
+                "dow": "5"
+        },
 	{
-		"device": "marlin",
-		"build_type": "userdebug",
-		"dow": "5"
-	},
-	{
-		"device": "sailfish",
-		"build_type": "userdebug",
-		"dow": "5"
-	},
-	{
-		"device": "mido",
-		"build_type": "userdebug",
-		"dow": "2"
-	}
+                "device": "potter",
+                "build_type": "userdebug",
+                "dow": "6"
+        }
 ]
