@@ -15,6 +15,16 @@
                 "dow": "2"
         },
 	{
+                "device": "kenzo",
+                "build_type": "userdebug",
+                "dow": "3"
+        },
+        {
+                "devices": "whyred",
+                "build_type": "userdebug",
+                "dow": "3"
+        },
+        {
                 "device": "sanders",
                 "build_type": "userdebug",
                 "dow": "4"
