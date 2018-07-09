@@ -7,6 +7,7 @@ node("master") {
 	stage('Sync') {
 		sh '''#!/bin/bash
 		cd '''+BUILD_TREE+'''
+		rm -rf .repo/local_manifests
 	        repo forall -c "git reset --hard"
 	        repo forall -c "git clean -f -d"
 	        repo sync -d -c -j32 --force-sync
